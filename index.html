@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindpage - Daily Notebook</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    
+    <header>
+        <span class="logo">Mind<span>page</span></span>
+        <span class="tagline">Daily thought notebook</span>
+    </header>
+    
+    <main>
+        <!-- Sidebar -->
+        <aside>
+        <div class="sidebar-top">
+            <button id="new-entry-btn">+ New entry</button>
+            <input id="search" type="search" placeholder="Search entries…" autocomplete="off"/>
+            <span class="entry-count" id="entry-count">0 entries</span>
+        </div>
+        <div id="entry-list"></div>
+        </aside>
+    
+        <!-- Editor -->
+        <section id="editor-pane">
+            <!-- Empty state shown when no entry selected -->
+            <div id="empty-state">
+                <div class="big-icon">📓</div>
+                <p>Your mind, on paper.</p>
+                <small>Create a new entry or pick one from the list.</small>
+            </div>
+    
+            <!-- Editor (hidden until entry selected) -->
+            <div id="editor-wrapper" style="display:none; flex:1; display:none; flex-direction:column; overflow:hidden;">
+                <div class="editor-toolbar">
+                    <span id="save-status">—</span>
+                    <div class="mood-group" title="How are you feeling?">
+                        <button class="mood-btn" data-mood="😌">😌</button>
+                        <button class="mood-btn" data-mood="🤔">🤔</button>
+                        <button class="mood-btn" data-mood="😤">😤</button>
+                        <button class="mood-btn" data-mood="🌊">🌊</button>
+                        <button class="mood-btn" data-mood="✨">✨</button>
+                    </div>
+                    <span class="toolbar-sep"></span>
+                    <button class="tool-btn" id="export-btn">Export .pdf</button>
+                    <button class="tool-btn danger" id="delete-btn">Delete</button>
+                </div>
+        
+                <div class="editor-body">
+                    <input id="entry-title" type="text" placeholder="Give this thought a title…" maxlength="120"/>
+                    <div class="paper-area">
+                        <textarea id="entry-body" placeholder="Begin writing… what's on your mind today?"></textarea>
+                    </div>
+                    <div class="tags-row">
+                        <span class="tags-label">Tags</span>
+                        <div id="tags-container"></div>
+                        <input id="tag-input" placeholder="add tag…" maxlength="30"/>
+                    </div>
+                    <div id="word-count">0 words</div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <div id="toast"></div>
+
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+</html>
