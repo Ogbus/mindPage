@@ -369,6 +369,40 @@ searchInput.addEventListener('input', () => {
 // Save before leaving
 window.addEventListener('beforeunload', commitSave);
 
+// ── Dark mode ────────────────────────────────────────────────────
+const THEME_KEY = 'mindpage_theme';
+const themeToggle = document.getElementById('theme-toggle');
+const htmlEl = document.documentElement;
+
+function applyTheme(theme) {
+  htmlEl.setAttribute('data-theme', theme);
+  themeToggle.textContent = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+  localStorage.setItem(THEME_KEY, theme);
+}
+
+function initTheme() {
+  const saved = localStorage.getItem(THEME_KEY);
+  if (saved) {
+    applyTheme(saved);
+  } else {
+    // Detect OS preference on first visit
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(prefersDark ? 'dark' : 'light');
+  }
+}
+
+themeToggle.addEventListener('click', () => {
+  const current = htmlEl.getAttribute('data-theme');
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+});
+
+// Also listen for OS theme changes at runtime
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+  if (!localStorage.getItem(THEME_KEY)) applyTheme(e.matches ? 'dark' : 'light');
+});
+
+initTheme();
+
 // ── PWA icon + manifest (self-contained, no external files) ─────
 const iconSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 680">
     <rect width="680" height="680" rx="140" fill="#f0f4ff"/>
