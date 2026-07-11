@@ -1,1 +1,1 @@
-# mindPage
+This is a pet project that enables you to write down what is on your mind.

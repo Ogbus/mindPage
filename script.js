@@ -288,6 +288,36 @@ document.getElementById('export-btn').addEventListener('click', () => {
   
   showToast('Exported PDF!');
 });
+
+// ── Mobile sidebar toggle ────────────────────────────────────────
+const sidebar   = document.querySelector('aside');
+const backdrop  = document.getElementById('sidebar-backdrop');
+
+function openSidebar() {
+  sidebar.classList.add('open');
+  backdrop.classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  backdrop.classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+backdrop.addEventListener('click', closeSidebar);
+document.getElementById('mobile-entries-btn').addEventListener('click', openSidebar);
+document.getElementById('mobile-new-btn').addEventListener('click', () => {
+  createEntry();
+  closeSidebar();
+});
+
+// Close sidebar when an entry is tapped on mobile
+entryList.addEventListener('click', () => {
+  if (window.innerWidth <= 640) closeSidebar();
+});
+
+
 //  document.getElementById('export-btn').addEventListener('click', () => {
 //    if (!activeId) return;
 //    const e = entries.find(x => x.id === activeId);
