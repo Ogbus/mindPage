@@ -369,6 +369,68 @@ searchInput.addEventListener('input', () => {
 // Save before leaving
 window.addEventListener('beforeunload', commitSave);
 
+// ── PWA icon + manifest (self-contained, no external files) ─────
+const iconSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 680">
+    <rect width="680" height="680" rx="140" fill="#f0f4ff"/>
+    <rect x="0" y="340" width="680" height="340" fill="#e8f0fe"/>
+    <rect x="0" y="460" width="680" height="220" fill="#d4e4f7"/>
+    <rect x="0" y="540" width="680" height="140" fill="#b8d4f0" opacity="0.6"/>
+    <ellipse cx="160" cy="180" rx="90" ry="38" fill="#fff" opacity="0.85"/>
+    <ellipse cx="220" cy="165" rx="70" ry="32" fill="#fff" opacity="0.9"/>
+    <ellipse cx="500" cy="140" rx="75" ry="30" fill="#fff" opacity="0.75"/>
+    <ellipse cx="555" cy="128" rx="55" ry="25" fill="#fff" opacity="0.8"/>
+    <circle cx="340" cy="200" r="62" fill="#f9c74f"/>
+    <circle cx="340" cy="200" r="48" fill="#ffd166"/>
+    <line x1="340" y1="118" x2="340" y2="96" stroke="#f9c74f" stroke-width="5" stroke-linecap="round"/>
+    <line x1="398" y1="142" x2="412" y2="128" stroke="#f9c74f" stroke-width="5" stroke-linecap="round"/>
+    <line x1="422" y1="200" x2="444" y2="200" stroke="#f9c74f" stroke-width="5" stroke-linecap="round"/>
+    <line x1="398" y1="258" x2="412" y2="272" stroke="#f9c74f" stroke-width="5" stroke-linecap="round"/>
+    <line x1="282" y1="142" x2="268" y2="128" stroke="#f9c74f" stroke-width="5" stroke-linecap="round"/>
+    <line x1="258" y1="200" x2="236" y2="200" stroke="#f9c74f" stroke-width="5" stroke-linecap="round"/>
+    <line x1="282" y1="258" x2="268" y2="272" stroke="#f9c74f" stroke-width="5" stroke-linecap="round"/>
+    <line x1="340" y1="282" x2="340" y2="304" stroke="#f9c74f" stroke-width="5" stroke-linecap="round"/>
+    <rect x="148" y="402" width="390" height="248" rx="18" fill="#000" opacity="0.12"/>
+    <rect x="140" y="388" width="390" height="248" rx="18" fill="#fffdf8"/>
+    <rect x="318" y="388" width="28" height="248" fill="#e8e2d6"/>
+    <line x1="168" y1="442" x2="310" y2="442" stroke="#d0cabb" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="168" y1="470" x2="310" y2="470" stroke="#d0cabb" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="168" y1="498" x2="310" y2="498" stroke="#d0cabb" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="168" y1="526" x2="288" y2="526" stroke="#d0cabb" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="168" y1="554" x2="310" y2="554" stroke="#d0cabb" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="168" y1="582" x2="258" y2="582" stroke="#d0cabb" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="354" y1="442" x2="502" y2="442" stroke="#d0cabb" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="354" y1="470" x2="502" y2="470" stroke="#d0cabb" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="354" y1="498" x2="482" y2="498" stroke="#d0cabb" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="354" y1="526" x2="502" y2="526" stroke="#d0cabb" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="354" y1="554" x2="462" y2="554" stroke="#d0cabb" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="474" y="368" width="14" height="88" rx="7" fill="#4a7c59" transform="rotate(28 474 368)"/>
+    <polygon points="488,444 502,437 496,457" fill="#a8c5b0"/>
+</svg>`;
+
+const iconDataURL = 'data:image/svg+xml;base64,' + btoa(iconSVG);
+
+// Apple touch icon
+document.getElementById('apple-touch-icon').href = iconDataURL;
+
+// Web app manifest as a blob
+const manifest = {
+name: 'Mindpage',
+short_name: 'Mindpage',
+description: 'Your quiet daily thought notebook',
+start_url: '.',
+display: 'standalone',
+background_color: '#f0f4ff',
+theme_color: '#f0f4ff',
+icons: [{ src: iconDataURL, sizes: 'any', type: 'image/svg+xml' }]
+};
+const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+const manifestURL = URL.createObjectURL(manifestBlob);
+const manifestLink = document.createElement('link');
+manifestLink.rel = 'manifest';
+manifestLink.href = manifestURL;
+document.head.appendChild(manifestLink);
+
+
 // ── Boot ────────────────────────────────────────────────────────
 renderList();
 if (entries.length) openEntry(entries[0].id);
