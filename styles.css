@@ -12,6 +12,20 @@
     --radius:     6px;
     --shadow:     0 2px 12px rgba(26,26,46,.08);
 }
+
+/* colors for dark mood implementation */
+[data-theme="dark"] {
+    --ink:        #e4e2f0;
+    --ink-light:  #9a98b8;
+    --ink-faint:  #5a5878;
+    --paper:      #16141f;
+    --paper-warm: #1e1c2a;
+    --rule:       #2e2c3e;
+    --accent:     #6aab7e;
+    --accent-alt: #d4894e;
+    --danger:     #d46060;
+    --shadow:     0 2px 12px rgba(0,0,0,.3);
+}
     
 /* ── Reset ───────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,6 +64,25 @@ header {
     letter-spacing: .06em;
     text-transform: uppercase;
     color: var(--ink-faint);
+}
+
+#theme-toggle {
+    margin-left: auto;
+    border: 1.5px solid var(--rule);
+    border-radius: 99px;
+    padding: .3rem .75rem;
+    cursor: pointer;
+    color: var(--ink-light);
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+    font-size: .75rem;
+    transition: border-color .15s, color .15s;
+}
+
+#theme-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
 }
     
 /* ── Layout ─────────────────────────────────────────────────── */
